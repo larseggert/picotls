@@ -43,7 +43,7 @@
 #include "picotls.h"
 #include "picotls/minicrypto.h"
 
-#ifdef _WINDOWS
+#if defined(_WINDOWS)
 #ifdef _WINDOWS_XP
  /* The modern BCrypt API is only available on Windows Vista and later versions.
   * If compiling on Windows XP, we need to use the olded "wincrypt" API */
@@ -80,8 +80,8 @@ static void read_entropy(uint8_t *entropy, size_t size)
     if (BCRYPT_SUCCESS(nts)) {
         nts = BCryptGenRandom(hAlgorithm, (PUCHAR)entropy, (ULONG)size, 0);
 
-        (void)BCryptCloseAlgorithmProvider(hAlgorithm, 0); 
-    } 
+        (void)BCryptCloseAlgorithmProvider(hAlgorithm, 0);
+    }
 
     if (!BCRYPT_SUCCESS(nts)) {
         perror("ptls_minicrypto_random_bytes: could not open BCrypt RNG Algorithm");
@@ -89,6 +89,7 @@ static void read_entropy(uint8_t *entropy, size_t size)
     }
 }
 #endif
+#elif defined(PARTICLE)
 #else
 static void read_entropy(uint8_t *entropy, size_t size)
 {

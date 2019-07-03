@@ -33,7 +33,20 @@ extern "C" {
 #include <unistd.h>
 #endif
 
+#include "picotls.h"
+
+#define SECP256R1_PRIVATE_KEY_SIZE 32
+
+typedef struct st_ptls_mbedtls_secp256r1sha256_sign_certificate_t {
+    ptls_sign_certificate_t super;
+    uint8_t key[SECP256R1_PRIVATE_KEY_SIZE];
+} ptls_mbedtls_secp256r1sha256_sign_certificate_t;
+
 void ptls_mbedtls_random_bytes(void *buf, size_t len);
+
+extern ptls_key_exchange_algorithm_t ptls_mbedtls_secp256r1, ptls_mbedtls_x25519;
+extern ptls_cipher_suite_t ptls_mbedtls_aes128gcmsha256, ptls_mbedtls_aes256gcmsha384, ptls_mbedtls_chacha20poly1305sha256;
+extern ptls_cipher_suite_t *ptls_mbedtls_cipher_suites[];
 
 #ifdef __cplusplus
 }
